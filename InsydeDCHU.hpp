@@ -34,6 +34,6 @@ namespace InsydeDCHU {
     void setMode(Mode mode);
     byte getModeNum(Mode mode);
     void setColor(byte r, byte g, byte b);
-
+    void SetBrightness(byte a);
 
 }

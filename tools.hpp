@@ -1,5 +1,8 @@
 #pragma once
 
+#include <vector>
+#include <ctime>
+
 typedef struct {
 	unsigned char R, G, B;
 }Color;
@@ -14,4 +17,6 @@ Color inline BlendColor(const Color& a, const Color& b,const float& w){
 	return Color{ Blend(a.R,b.R,w), Blend(a.G,b.G,w), Blend(a.B,b.B,w) };
 }
 
+void SetColor();
+void ReadColor();
 

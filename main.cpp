@@ -1,104 +1,64 @@
 #include "InsydeDCHU.hpp"
-#include "tools.hpp"
+#include "var.hpp"
+#include "Timer.h"
+#include "KeyListener.h"
+#include "ChannelsCPP/ChannelsCPP/Channel.h"
 
 #include <iostream>
 #include <Windows.h>
-#include <cstring>
-#include <vector>
 #include <iostream>
-#include <fstream>
 #include <ctime>
+#include <thread>
+using std::cin, std::cout, std::endl;
 
-using std::cin, std::cout, std::endl,std::vector;
-
-const std::string colorsPath = "colors.bin";
-
-
-vector<Color> colors;
-clock_t color_wait;
-clock_t hz_wait;
-
-void ReadColor() {
-	std::ifstream f(colorsPath, std::ios::in);
-
-	if (!f.is_open()) {
-		return;
-	}
-
-	f.read((char*)&color_wait, sizeof(color_wait));
-	f.read((char*)&hz_wait, sizeof(hz_wait));
-
-	while (!f.eof()) {
-		Color c;
-		f.read((char*)&c, sizeof(Color));
-		colors.push_back(c);
-	}
-}
-
-void SetColor() {
-	cout << "已进入颜色编辑模式，除非显式提示已保存，否则编辑不会被保存" << endl;
-
-
-	cout << "请输入每个颜色持续的时间（毫秒）" << endl;
-	cin >> color_wait;
-	cout << "请输入刷新时间（毫秒），例如希望背光能够每秒钟10次的渐变，此处应该填写100（因为 1000 / 10 = 100）" << endl;
-	cin >> hz_wait;
+namespace ColorCall {
+	clock_t addT = 0;// 相对于整数颜色，现在多出来多少时间
+	size_t nowC = 0; // 当前颜色是第几个
+	go::Chan<clock_t> update;
 	
 
-	char mode;
-	while (true) {
-		cout << "请输入接下来你想要怎么做？a: 保留当前颜色，追加新的颜色 c: 清空当前颜色，从头添加颜色 s: 不进行颜色操作，结束程序保存" << endl;
-		cin >> mode;
-		if (mode == 'a' || mode == 'c' || mode == 's') {
-			break;
-		}
-	}
-	if (mode == 'a' || mode == 'c') {
-		if (mode == 'c') {
-			colors.clear();
+	
+
+	
+
+	void _updateColor(clock_t delta) {
+		addT += delta;
+
+		clock_t addC = addT / color_wait;
+		addT -= addC * color_wait;
+		if (addC != 0) {
+			nowC = (nowC + addC) % colors.size();
 		}
 
+		size_t nextC = (nowC + 1) % colors.size();
+
+		Color c = BlendColor(colors[nowC], colors[nextC], float(addT) / color_wait);
+
+		InsydeDCHU::setColor(c.R, c.G, c.B);
+		InsydeDCHU::SetBrightness(InsydeDCHU::byte(255 * KeyListener::Instance()->getLuminance() * brightness));
+		cout << "set" << delta << endl;
+	}
+
+	void callthreadMain() {
 		while (true) {
-			cout << "请输入新颜色的RGB值（三个0-255数字，用空格回车等字符隔开）" << endl;
-			int r, g, b;
-			cin >>r >> g >> b;
-			Color color{(unsigned char)r,(unsigned char)g,(unsigned char)b};
-			
-			InsydeDCHU::setColor(color.R, color.G, color.B);
-			cout << "颜色已呈现至键盘背光，是否接受？y: 接收并输入下一个颜色 n: 拒绝并重新输入 e: 接受并结束程序保存" << endl;
-
-			char i;
-			while (true) {
-				cin >> i;
-				if (i == 'y' || i == 'n' || i == 'e') {
-					break;
-				}
-			}
-
-			if (i == 'y' || i == 'e') {
-				colors.push_back(color);
-			}
-			if (i == 'e') {
-				break;
-			}
+			clock_t d;
+			d << update;
+			_updateColor(d);
 		}
 	}
-	// save
 
-	std::ofstream f(colorsPath, std::ios::trunc | std::ios::out);
+	std::thread callthread(callthreadMain);
 
-	f.write((char*)&color_wait, sizeof(color_wait));
-	f.write((char*)&hz_wait, sizeof(hz_wait));
-
-	for (auto c : colors) {
-		f.write((char*)&c, sizeof(Color));
+	void init() {
+		callthread.detach();
 	}
-	
-	
-	
-	f.close();
-	cout << "已保存" << endl;
+
+	void updateColor(clock_t delta) {
+		update << delta;
+	}
 }
+
+
 
 void ColorLoop() {
 	if (colors.size() == 0 || color_wait == 0) {
@@ -131,12 +91,17 @@ void ColorLoop() {
 	}
 }
 
+
+
+
 int main(int argc, char** argv) {
 
 	if (!InsydeDCHU::init()) {
+		cout << "dll初始化失败" << endl;
 		return -1;
 	}
 	ReadColor();
+	InsydeDCHU::setMode(InsydeDCHU::AllRGB);
 
 	if (argc >= 2) {
 		if (!strcmp(argv[1], "setcolor")) {
@@ -145,10 +110,39 @@ int main(int argc, char** argv) {
 		}
 	}
 	FreeConsole();
-
+	
 	//cout << InsydeDCHU::getStatus() << endl;
-
+	/**
 	InsydeDCHU::setMode(InsydeDCHU::AllRGB);
 
-	ColorLoop();
+	for (int i = 0; i < 256; i++) {
+		cout << i << "模式" << endl;
+		InsydeDCHU::setMode(InsydeDCHU::Mode(i));
+		Sleep(200);
+	}*/
+
+	//ColorLoop();
+	/**
+	for (size_t i = 0; i < 256; i++){
+		cout << i << endl;
+		InsydeDCHU::SetBrightness(i);
+		Sleep(100);
+
+	}
+	*/
+
+	if (colors.size() == 0 || color_wait == 0) {
+		return 0;
+	}
+
+	ColorCall::init();
+
+	Timer::Instance()->updateFunc = ColorCall::updateColor;
+	Timer::Instance()->sleepTime = hz_wait;
+	KeyListener::Instance()->closeingTime = 1500;
+	KeyListener::Instance()->sleepTime = sleep_wait;
+	KeyListener::Instance()->keykawaru = keykawaru;
+
+	Timer::Instance()->loop();
+
 }

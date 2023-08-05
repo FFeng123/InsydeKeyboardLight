@@ -76,7 +76,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -91,7 +92,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -106,7 +108,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,7 +124,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,15 +135,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ChannelsCPP\ChannelsCPP\Channel.h" />
+    <ClInclude Include="ChannelsCPP\ChannelsCPP\ChannelBuffer.h" />
+    <ClInclude Include="ChannelsCPP\ChannelsCPP\ChannelUtility.h" />
+    <ClInclude Include="ChannelsCPP\ChannelsCPP\Circular_buffer.h" />
+    <ClInclude Include="ChannelsCPP\ChannelsCPP\IChannel.h" />
+    <ClInclude Include="ChannelsCPP\ChannelsCPP\OChannel.h" />
     <ClInclude Include="InsydeDCHU.hpp" />
+    <ClInclude Include="KeyListener.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="tools.hpp" />
+    <ClInclude Include="var.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ChannelsCPP\ChannelsCPP\Channel.cpp" />
+    <ClCompile Include="ChannelsCPP\ChannelsCPP\ChannelBuffer.cpp" />
+    <ClCompile Include="ChannelsCPP\ChannelsCPP\ChannelUtility.cpp" />
+    <ClCompile Include="ChannelsCPP\ChannelsCPP\Circular_buffer.cpp" />
+    <ClCompile Include="ChannelsCPP\ChannelsCPP\IChannel.cpp" />
+    <ClCompile Include="ChannelsCPP\ChannelsCPP\OChannel.cpp" />
+    <ClCompile Include="config.cpp" />
     <ClCompile Include="InsydeDCHU.cpp" />
+    <ClCompile Include="KeyListener.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="var.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="InsydeLight.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

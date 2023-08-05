@@ -52,10 +52,10 @@ std::string InsydeDCHU::getStatus()
 
 void InsydeDCHU::setMode(Mode mode)
 {
-    byte data[] = { 0,0,0,(byte)mode };
+    byte data[] = { 255,255,255,(byte)mode };
     SetDCHU_Data(103, data, 4);
-    byte data2 = getModeNum(mode);
-    WriteAppSettings(2, 32, 1, &data2);
+    //byte data2 = getModeNum(mode);
+    //WriteAppSettings(2, 32, 1, &data2);
 }
 
 byte InsydeDCHU::getModeNum(Mode mode)
@@ -78,4 +78,12 @@ void InsydeDCHU::setColor(byte r, byte g, byte b)
     byte rgb[] = { r,g,b,240 };
     SetDCHU_Data(103, rgb, 4);
     //WriteAppSettings(2, 81, 3, rgb);
+}
+
+void InsydeDCHU::SetBrightness(byte a)
+{
+    byte data[] = { a, 0, 0, 244 };
+    SetDCHU_Data(103,data , 4);
+    //TODO: express the setting as a value in [0-4] as they do in their code
+    // WriteAppSettings(2, 35, 1, ref new byte[1]{ value } [0] );
 }

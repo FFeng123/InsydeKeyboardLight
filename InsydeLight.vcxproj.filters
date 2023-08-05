@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="chan">
+      <UniqueIdentifier>{022f2622-f341-4975-b0f6-db385a0cdd39}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InsydeDCHU.hpp">
@@ -20,6 +23,36 @@
     </ClInclude>
     <ClInclude Include="tools.hpp">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyListener.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="var.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ChannelsCPP\ChannelsCPP\Channel.h">
+      <Filter>chan</Filter>
+    </ClInclude>
+    <ClInclude Include="ChannelsCPP\ChannelsCPP\ChannelBuffer.h">
+      <Filter>chan</Filter>
+    </ClInclude>
+    <ClInclude Include="ChannelsCPP\ChannelsCPP\ChannelUtility.h">
+      <Filter>chan</Filter>
+    </ClInclude>
+    <ClInclude Include="ChannelsCPP\ChannelsCPP\Circular_buffer.h">
+      <Filter>chan</Filter>
+    </ClInclude>
+    <ClInclude Include="ChannelsCPP\ChannelsCPP\IChannel.h">
+      <Filter>chan</Filter>
+    </ClInclude>
+    <ClInclude Include="ChannelsCPP\ChannelsCPP\OChannel.h">
+      <Filter>chan</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -29,8 +62,43 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="KeyListener.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="config.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="var.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ChannelsCPP\ChannelsCPP\Channel.cpp">
+      <Filter>chan</Filter>
+    </ClCompile>
+    <ClCompile Include="ChannelsCPP\ChannelsCPP\ChannelBuffer.cpp">
+      <Filter>chan</Filter>
+    </ClCompile>
+    <ClCompile Include="ChannelsCPP\ChannelsCPP\ChannelUtility.cpp">
+      <Filter>chan</Filter>
+    </ClCompile>
+    <ClCompile Include="ChannelsCPP\ChannelsCPP\Circular_buffer.cpp">
+      <Filter>chan</Filter>
+    </ClCompile>
+    <ClCompile Include="ChannelsCPP\ChannelsCPP\IChannel.cpp">
+      <Filter>chan</Filter>
+    </ClCompile>
+    <ClCompile Include="ChannelsCPP\ChannelsCPP\OChannel.cpp">
+      <Filter>chan</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="InsydeLight.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
